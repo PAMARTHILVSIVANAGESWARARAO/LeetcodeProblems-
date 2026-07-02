@@ -1,19 +1,75 @@
-class Solution {
-    public String longestCommonPrefix(String[] strs) {
-        String prefix = strs[0];
+class TrieNode {
+    TrieNode[] child;
+    boolean isLeaf;
 
-        for (int i = 1; i < strs.length; i++) {
+    TrieNode() {
+        child = new TrieNode[26];
+        isLeaf = false;
+    }
+}
 
-            while (strs[i].indexOf(prefix) != 0) {
+class Trie {
+    TrieNode root;
 
-                prefix = prefix.substring(0, prefix.length() - 1);
+    Trie() {
+        root = new TrieNode();
+    }
 
-                if (prefix.isEmpty()) {
-                    return "";
-                }
+    public void insert(String word) {
+        TrieNode curr = root;
+
+        for (int i = 0; i < word.length(); i++) {
+            int idx = word.charAt(i) - 'a';
+
+            if (curr.child[idx] == null) {
+                curr.child[idx] = new TrieNode();
             }
+
+            curr = curr.child[idx];
         }
 
-        return prefix;
+        curr.isLeaf = true;
+    }
+
+    public String longestCommonPrefix() {
+        TrieNode curr = root;
+        StringBuilder res = new StringBuilder();
+
+        while (true) {
+            int count = 0;
+            int index = -1;
+
+            
+            for (int i = 0; i < 26; i++) {
+                if (curr.child[i] != null) {
+                    count++;
+                    index = i;
+                }
+            }
+
+            
+            if (count != 1 || curr.isLeaf) {
+                break;
+            }
+
+            res.append((char) ('a' + index));
+            curr = curr.child[index];
+        }
+
+        return res.toString();
+    }
+}
+
+
+
+class Solution {
+    public String longestCommonPrefix(String arr[]) {
+        Trie obj = new Trie();
+        for(String x : arr){
+            obj.insert(x);
+        }
+        
+        return obj.longestCommonPrefix();
+        
     }
 }
