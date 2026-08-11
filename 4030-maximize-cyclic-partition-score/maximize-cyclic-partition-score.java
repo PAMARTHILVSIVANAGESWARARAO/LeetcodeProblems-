@@ -8,12 +8,11 @@ class Solution {
             }
         }
 
-        long ans1 = maximumProfit(nums, maxI, maxI + n, k); // nums[maxI] is the first element.
-        long ans2 = maximumProfit(nums, maxI + 1, maxI + 1 + n, k); // nums[maxI] is the last element.
+        long ans1 = maximumProfit(nums, maxI, maxI + n, k); 
+        long ans2 = maximumProfit(nums, maxI + 1, maxI + 1 + n, k); 
         return Math.max(ans1, ans2);
     }
 
-    // 3573. Best Time to Buy and Sell Stock V
     private long maximumProfit(int[] prices, int l, int r, int k) {
         int n = prices.length;
         long[][] f = new long[k + 2][3];
